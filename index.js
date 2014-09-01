@@ -14,7 +14,6 @@ function saveOpp(opp, callback) {
 }
 
 function slackIt(text, callback) {
-  // callback();
   slack.send({
     text: text,
     channel: '#general',
@@ -24,9 +23,7 @@ function slackIt(text, callback) {
 function processOpportunity(opp, callback) {
   redis.get(opp.id, function (err, reply) {
     if (reply) {
-      // existing opportunity
       var oppJSON = JSON.parse(reply);
-      // test if the
       if (oppJSON.milestoneId != opp.milestoneId) {
         saveOpp(opp, function () {
           capsule.partyById(opp.partyId, function (err, party) {
@@ -37,8 +34,6 @@ function processOpportunity(opp, callback) {
         callback();
       }
     } else {
-      // new opportunity
-      console.log("Adding opportunity");
       saveOpp(opp, function (err, results) {
         capsule.partyById(opp.partyId, function (err, party) {
           slackIt(text = "A new opportunity "+opp.name+" for "+party.organisation.name+" has been added! Link: <https://"+process.env.CAPSULE_USER+".capsulecrm.com/opportunity/"+opp.id+">", callback);
@@ -57,9 +52,6 @@ function poll() {
     async.each(data.opportunities.opportunity, processOpportunity, function (err) {
       if (err) {
         console.error(err);
-      } else {
-        console.log("Completed");
-
       }
       redis.end();
     });
