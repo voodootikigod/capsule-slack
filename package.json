@@ -1,0 +1,18 @@
+{
+  "name": "capsule-slack",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^0.9.0",
+    "capsule-crm": "0.0.8",
+    "node-slack": "0.0.4",
+    "redis": "^0.12.1"
+  }
+}
